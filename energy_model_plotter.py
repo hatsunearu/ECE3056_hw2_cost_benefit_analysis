@@ -35,22 +35,23 @@ def main(filename):
     # ax1.set_ylabel('Reconstruction Error (%)')
 
     # ax2 = ax1.twinx()
-    # ax2.plot(k, energy, 'r')
-    # ax2.set_ylabel('Energy Used (fJ)')
+    # ax2.plot(k, map(lambda x: x/1e15, energy), 'r')
+    # ax2.set_ylabel('Energy Used (J)')
 
     marginal_benefit = normalized_discrete_derivative(energy, accuracy)
-    plt.plot(energy[0:-1], marginal_benefit)
-    plt.xlabel("Energy used (fJ)")
-    plt.ylabel("Marginal accuracy benefit (% per fJ)")
+     #plt.plot(map(lambda x: x/1e15, energy[0:-1]), marginal_benefit)
+     #plt.xlabel("Energy used (J)")
+     #plt.ylabel("Marginal accuracy benefit (% per fJ)")
+     #plt.title("Energy Analysis of " + filename)
 
     best_energy = energy[marginal_benefit.index(min(marginal_benefit))]
     ind = energy.index(best_energy)
-    print "Optimal Values:"
+    print "Optimal Values for "+filename+":"
     print "K: %d" % (k[ind],)
     print "Accuracy: %.2f %%" % (accuracy[ind],)
-    print "Energy: %d fJ" % (energy[ind],)
+    print "Energy: %.2lf J" % (energy[ind]/1e15,)
 
-    plt.show()
+    #plt.show()
 
 if __name__ == "__main__":
     main(str(sys.argv[1]))
